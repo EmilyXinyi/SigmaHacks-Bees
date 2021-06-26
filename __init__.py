@@ -11,13 +11,25 @@ def homepage():
 
     return render_template('homepage.html', url=os.getenv("URL"))
 
-@app.route('/hiveLocationA')
+@app.route('/HoneyHouseFarms')
 def good(): 
-    return render_template('good.html', url=os.getenv("URL"))
+    return render_template('HoneyHouseFarms.html', url=os.getenv("URL"))
 
 @app.route('/hiveLocationB')
 def infiltrated(): 
     return render_template('infiltrated.html', url=os.getenv("URL"))
+
+@app.route('/CentralValleyBees')
+def CentralValleyBees(): 
+    return render_template('CentralValleyBees.html', url=os.getenv("URL"))
+
+@app.route('/MtAdamsHoney')
+def MtAdamsHoney(): 
+    return render_template('MtAdamsHoney.html', url=os.getenv("URL"))
+
+@app.route('/contact')
+def contact(): 
+    return render_template('contact.html', url=os.getenv("URL"))
 
 @app.route('/health')
 def health(): 
