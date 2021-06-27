@@ -1,34 +1,224 @@
 <!DOCTYPE html>
-<html>
-<title>W3.CSS Template</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="static/styles/homepage.css">
+<html lang="en">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-116288086-2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-<body>
-<!-- Navbar (sit on top) -->
+      gtag("config", "UA-116288086-2");
+    </script>
+	  
+
+
+<style type="text/css">
+* {  
+ margin:0px;
+ padding:0px;
+}
+
+#header {
+    background: #636769;
+    position:relative;
+    width:100%;
+}
+
+body {
+background-color: black;
+}
+</style>
+
+<header>
 <div class="w3-top">
-  <div class="w3-bar w3-yellow w3-wide w3-padding w3-card">
-    <a href="/" class="w3-bar-item w3-button w3-bold w3-xlarge">Hornets Bee-Gone</a>
-    <!-- Float links to the right. Hide them on small screens -->
-    <div class="w3-right w3-hide-small">
-      <a href="https://en.wikipedia.org/wiki/Asian_giant_hornet" class="w3-bar-item w3-button">About Hornets  </a>
-      <a href="contact" class="w3-bar-item w3-button">Contact</a>
-    </div>
-  </div>
+     <img src="static/img/image2.png" alt="Logo" width="100%" height="400px" background-size="cover"/>
 </div>
+   
+		 <div id="app-area">        
+          <div id="svg-wrap"></div>     
+        </div>
+      </div>
+</header>
 
-<!--MARK TO REPLACE WITH DYNAMIC STUFFZZZZ-->
-<div class="w3-container w3-padding-top-32">
-  <h3 class="w3-padding-top-32 w3-center w3-bold w3-xxlarge w3-text-yellow">Honey House Farms</h3>
-</div>
-<div class="w3-container">
-  <p class="w3-text-white w3-center">Choose a hive:
-      <a href="CentralValleyBees" class="w3-bar-item w3-button">Central Valley Bees</a>
-      <a href="MtAdamsHoney" class="w3-bar-item w3-button">Mt Adams Honey</a>
-      <a href="HoneyHouseFarms" class="w3-bar-item w3-button">Honey House Farms</a>
-  </p>
-</div>
+  </head>
+  <body>
+    <script>
+      var univSvgWidth;
+      var univSvgHeight;
+    </script>
 
-</body>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"
+    ></script>
+
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+      integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://d3js.org/d3.v5.min.js"></script> 
+<meta charset="utf-8">
+<style type="text/css">
+
+.link {
+  fill: white;
+  stroke: #666;
+  stroke-width: 1.5px;
+}
+
+.node circle {
+  fill: yellow;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+text {
+  font: 10px sans-serif;
+  pointer-events: none;
+}
+
+</style>
+<body>
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+<script type="text/javascript">
+labels = [, "Mt Adams Honey", "Central Valley Bees", "Bee Hive High", "West Coast Bees", "Bee Central", "Honey Hill" ];
+
+// http://blog.thomsonreuters.com/index.php/mobile-patent-suits-graphic-of-the-day/
+var links = [
+  {source: "Honey House Farms", target: "Mt Adams Honey", type: "licensing"},
+  {source: "Honey House Farms", target: "Central Valley Bees", type: "licensing"},
+  {source: "Hornet Coast", target: "Bee Hive High", type: "suit"},
+  {source: "The Queen Bee", target: "Bee Hive High", type: "suit"},
+  {source: "Central Valley Bees", target: "Bee Hive High", type: "suit"},
+  {source: "Bee Valley", target: "Bee Hive High", type: "suit"},
+  {source: "Honey House Farms", target: "Bee Hive 2", type: "suit"},
+  {source: "Honey House Farms", target: "Bee Hive 1", type: "suit"},
+  {source: "West Coast Bees", target: "George's Bee Hive", type: "suit"},
+  {source: "Bee Hive High", target: "Central Valley Bees", type: "suit"},
+  {source: "Honey House Farms", target: "Bumble Bridge", type: "suit"},
+  {source: "Hornet Coast", target: "Bee Valley", type: "resolved"},
+  {source: "Bumble Bee Briges", target: "Bee Valley", type: "resolved"},
+  {source: "Bee's Galley", target: "Bee Valley", type: "suit"},
+  {source: "Wasp Central", target: "Bumble Bee Briges", type: "suit"},
+  {source: "Bee Valley", target: "Bumble Bee Briges", type: "resolved"},
+  {source: "Bee Hive High", target: "The Queen Bee", type: "suit"},
+  {source: "Honey House Farms", target: "The Queen Bee", type: "suit"},
+  {source: "Bee Valley", target: "Hornet Coast", type: "resolved"},
+  {source: "Bee Hive High", target: "Hornet Coast", type: "suit"},
+  {source: "Bee Valley", target: "Bee's Galley", type: "suit"},
+];
+
+var nodes = {};
+
+// Compute the distinct nodes from the links.
+links.forEach(function(link) {
+  link.source = nodes[link.source] || (nodes[link.source] = {name: link.source});
+  link.target = nodes[link.target] || (nodes[link.target] = {name: link.target});
+});
+
+var width = 960,
+    height = 500;
+
+var force = d3.layout.force()
+    .nodes(d3.values(nodes))
+    .links(links)
+    .size([width, height])
+    .linkDistance(60)
+    .charge(-300)
+    .on("tick", tick)
+    .start();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var link = svg.selectAll(".link")
+    .data(force.links())
+  .enter().append("line")
+    .attr("class", "link");
+
+var node = svg.selectAll(".node")
+    .data(force.nodes())
+  .enter().append("g")
+    .attr("class", "node")
+    .on("mouseover", mouseover)
+    .on("mouseout", mouseout)
+	.on("mousedown", mousedown)
+    .call(force.drag);
+
+node.append("circle")
+    .attr("r", 8);
+
+node.append("text")
+    .attr("x", 12)
+    .attr("dy", ".35em")
+    .style('fill', 'white')
+    .text(function(d) { return d.name; });
+
+function tick() {
+  link
+      .attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  node
+      .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+
+
+//one response per ctrl keydown
+var lastKeyDown = -1;
+
+function keydown() {
+  d3.event.preventDefault();
+  if (lastKeyDown !== -1) return;
+  lastKeyDown = d3.event.key;
+
+}
+
+function keyup() {
+  lastKeyDown = -1;
+
+}
+
+
+function showInfo(){
+alert("i am information");
+}
+
+function mouseover() {
+  d3.select(this).select("circle").transition()
+      .duration(750)
+      .attr("r", 16);
+}
+
+function mouseout() {
+  d3.select(this).select("circle").transition()
+      .duration(750)
+      .attr("r", 8);
+}
+
+function mousedown(d){
+d3.select(this).text(function (d) {
+    var name = d.name;
+    name = name.replace(/ /g, "");
+    window.location.href = name;
+});
+}
+
+</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML-full"></script>
+  </body>
 </html>
